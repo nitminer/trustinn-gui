@@ -1,0 +1,45 @@
+-- BlockScopeStarts --
+Function: main
+Block Order: 1
+  %1 = alloca i32, align 4
+  %x = alloca i32, align 4
+  store i32 0, i32* %1
+  %2 = bitcast i32* %x to i8*, !dbg !128
+  call void @klee_make_symbolic(i8* %2, i64 4, i8* getelementptr inbounds ([2 x i8]* @.str, i32 0, i32 0)), !dbg !128
+  %3 = load i32* %x, align 4, !dbg !129
+  %4 = icmp sgt i32 %3, 5, !dbg !129
+  br i1 %4, label %5, label %7, !dbg !129
+-- BlockScopeEnds --
+
+-- BlockScopeStarts --
+Function: main
+Block Order: 2
+; <label>:5                                       ; preds = %0
+  %6 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([10 x i8]* @.str1, i32 0, i32 0)), !dbg !129
+  br label %7, !dbg !129
+-- BlockScopeEnds --
+
+-- BlockScopeStarts --
+Function: main
+Block Order: 3
+; <label>:7                                       ; preds = %5, %0
+  %8 = load i32* %x, align 4, !dbg !131
+  %9 = icmp slt i32 %8, 3, !dbg !131
+  br i1 %9, label %10, label %12, !dbg !131
+-- BlockScopeEnds --
+
+-- BlockScopeStarts --
+Function: main
+Block Order: 4
+; <label>:10                                      ; preds = %7
+  %11 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([10 x i8]* @.str2, i32 0, i32 0)), !dbg !131
+  br label %12, !dbg !131
+-- BlockScopeEnds --
+
+-- BlockScopeStarts --
+Function: main
+Block Order: 5
+; <label>:12                                      ; preds = %10, %7
+  ret i32 0, !dbg !133
+-- BlockScopeEnds --
+

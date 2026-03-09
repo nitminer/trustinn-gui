@@ -1,0 +1,6 @@
+***Total gSC-MCC - CBMC - runtime in seconds 1.008121309
+Total  gSC-MCC - CBMC - runtime: 0:00:00:1.0081
+**************** gSC-MCC - CBMC -  time Report - End**************************
+***Total gSC-MCC - CBMC - runtime in seconds 1.074316228
+Total  gSC-MCC - CBMC - runtime: 0:00:00:1.0743
+**************** gSC-MCC - CBMC -  time Report - End**************************

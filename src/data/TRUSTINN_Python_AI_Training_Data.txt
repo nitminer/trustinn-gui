@@ -1,0 +1,334 @@
+AI TRAINING DATASET
+Module: TRUSTINN – Python Conditional Coverage Tool
+1. System Overview
+
+TRUSTINN is a software testing platform that supports multiple programming languages including:
+
+C
+
+Java
+
+Python
+
+Solidity
+
+This module explains how to use the Python Conditional Coverage Testing Tool in TRUSTINN.
+
+The purpose of this tool is to:
+
+Perform syntax checking
+
+Execute Python programs
+
+Analyze assertion results
+
+Measure conditional coverage
+
+Generate charts
+
+Export reports (ZIP file)
+
+2. What is Conditional Coverage?
+
+Conditional Coverage is a software testing metric.
+
+It measures whether:
+
+Each Boolean expression (True/False condition)
+
+Inside control structures such as:
+
+if
+
+while
+
+for
+
+has been evaluated to both TRUE and FALSE during execution.
+
+Why Conditional Coverage is Important:
+
+Detects hidden logical bugs
+
+Improves test quality
+
+Helps refactor legacy code safely
+
+Builds confidence in business logic
+
+Reduces production failures
+
+A higher percentage means better logical testing coverage.
+
+3. Step-by-Step Workflow (Python Module)
+STEP 1: Select Python Tool
+
+Open TRUSTINN platform
+
+Select Python from language options
+
+Ensure Python tab is active before proceeding
+
+STEP 2: Select Security Tool
+
+In "Tool Configuration"
+
+Choose tool from dropdown
+
+Example: Condition Coverage Fuzzing
+
+Tool must be selected before uploading program
+
+STEP 3: Provide Python Program
+
+User has three options:
+
+Option A: Upload Python File
+
+Click “Upload File”
+
+Click “Browse”
+
+Select .py file
+
+Ensure tool is already selected
+
+Option B: Load Sample Code
+
+Click “Load Sample Code”
+
+System loads predefined Python program for testing
+
+Option C: Write Code in Editor
+
+Click “Write Code”
+
+Code editor opens
+
+Type Python program manually
+
+STEP 4: View Uploaded Program
+
+Click “View File”
+
+System displays full Python source code
+
+Verify correctness before execution
+
+STEP 5: Execute Program
+
+Click “Execute”
+
+Execution begins
+
+Terminal window displays output
+
+Output includes:
+
+Compilation (Syntax Check): SUCCESS
+
+Assertion Summary
+
+Total assertion violations
+
+Total assertion failures
+
+Total assertions added
+
+Conditional Coverage Percentage
+
+Example:
+Conditional Coverage: 95%
+
+4. Understanding Output
+Line 1:
+
+Compilation (Syntax Check): SUCCESS
+→ Python file compiled successfully
+
+Assertion Summary:
+
+Indicates testing analysis has started
+
+Assertion Details:
+
+Shows:
+
+Passed assertions
+
+Failed assertions
+
+Violations
+
+Final Line:
+
+Conditional Coverage: XX%
+
+This percentage indicates:
+How thoroughly logical branches were tested.
+
+5. Additional Features
+Copy Button
+
+Copies terminal output
+
+Stored in clipboard
+
+Chart Button
+
+Generates visual chart based on results
+
+Displays:
+
+Pie Chart
+
+Bar Chart
+
+Download Chart
+
+Downloads chart as file
+
+Available in both pie and bar format
+
+ZIP Button
+
+Downloads compressed file
+
+Contains:
+
+Python program
+
+Output text document
+
+Clear Button
+
+Clears terminal screen
+
+6. AI Chatbot Knowledge Rules
+
+The AI should answer the following types of questions:
+
+If User Asks:
+
+“What is conditional coverage?”
+
+AI should respond:
+Conditional Coverage measures whether each Boolean condition inside control structures has been evaluated to both TRUE and FALSE during execution.
+
+If User Asks:
+
+“How do I test my Python program?”
+
+AI should respond:
+
+Select Python
+
+Select Condition Coverage tool
+
+Upload or write program
+
+Click Execute
+
+Review coverage result
+
+If User Asks:
+
+“What does 95% coverage mean?”
+
+AI should respond:
+It means 95% of logical conditions in your program were tested in both TRUE and FALSE states.
+
+If User Asks:
+
+“How do I download results?”
+
+AI should respond:
+Use ZIP button to download:
+
+Python source file
+
+Output analysis report
+
+7. Industry & Educational Importance
+
+In Industry:
+
+Helps refactor legacy code
+
+Ensures business rule correctness
+
+Prevents costly production bugs
+
+In Education:
+
+Builds logical thinking
+
+Teaches branch testing
+
+Improves understanding of control flow
+
+8. AI Behavior Guidelines
+
+The chatbot must:
+
+Guide user step-by-step
+
+Ask if tool is selected before upload
+
+Suggest writing sample code if user doesn’t have file
+
+Explain output clearly
+
+Interpret coverage percentage
+
+Encourage improving low coverage
+
+9. Example AI Conversation Training Data
+User:
+
+How do I check conditional coverage?
+
+AI:
+
+Select Python tab
+
+Choose “Condition Coverage Fuzzing”
+
+Upload or write your Python file
+
+Click Execute
+
+Review Conditional Coverage % in output
+
+User:
+
+My coverage is 60%. Is that good?
+
+AI:
+
+60% means some logical branches were not tested in both TRUE and FALSE cases.
+You should add more test cases to improve coverage closer to 90% or above.
+
+User:
+
+What does Assertion Failure mean?
+
+AI:
+
+An assertion failure means a logical condition inside your program did not behave as expected during testing.
+
+10. Final AI Training Summary
+
+This module teaches the AI chatbot to:
+
+Understand Python testing workflow
+
+Explain Conditional Coverage clearly
+
+Interpret execution output
+
+Guide users step-by-step
+
+Explain charts and downloadable files
+
+Encourage better test quality

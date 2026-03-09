@@ -1,0 +1,172 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #111827;
+  --primary: #3b82f6;
+  --primary-dark: #2563eb;
+  --secondary: #f8fafc;
+  --accent: #f1f5f9;
+  --muted: #64748b;
+  --border: #e2e8f0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #111827;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+}
+
+/* Typography Classes */
+.font-display {
+  font-family: var(--font-geist-sans);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.font-heading {
+  font-family: var(--font-geist-sans);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.font-body {
+  font-family: var(--font-geist-sans);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.font-code {
+  font-family: var(--font-geist-mono);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.font-accent {
+  font-family: var(--font-geist-sans);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* Animation Classes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s ease-out;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* Hide scrollbar while allowing scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ───────────────────────────────────────────────────────────────────────
+   TOOLS COMPONENT - SCOPED STYLING
+   
+   Apply monospace font only to ToolsComponent content, never to the body
+   or sibling elements (UnifiedChatbot).
+─────────────────────────────────────────────────────────────────────── */
+
+.tools-component-root {
+  font-family: 'DM Mono', 'Fira Code', monospace;
+}

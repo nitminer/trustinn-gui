@@ -1,0 +1,2 @@
+Function: main Block Order: 1  %4 = icmp sgt i32 %3, 5, !dbg !129
+Function: main Block Order: 3  %9 = icmp slt i32 %8, 3, !dbg !131
