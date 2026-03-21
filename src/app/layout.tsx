@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import dynamic from "next/dynamic";
 import { Providers } from "@/components/Providers";
-
-const UnifiedChatbot = dynamic(() => import("@/components/UnifiedChatbot"));
+import { ChatbotWrapper } from "@/components/ChatbotWrapper";
+import UpdateNotifier from "@/components/UpdateNotifier";
 
 export const metadata: Metadata = {
   title: "TrustInn - Secure Testing Platform",
@@ -23,7 +22,8 @@ export default function RootLayout({
       <body className="antialiased" suppressHydrationWarning>
         <Providers>
           {children}
-          <UnifiedChatbot />
+          <ChatbotWrapper />
+          <UpdateNotifier />
         </Providers>
       </body>
     </html>

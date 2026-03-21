@@ -2,14 +2,25 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "main": "public/electron.js",
+  "homepage": "./",
   "scripts": {
-    "dev": "next dev -p 3030",
+    "dev": "next dev -p ${PORT:-3030}",
     "build": "next build",
-    "start": "next start -p 3030",
+    "start": "next start -p ${PORT:-3030}",
     "lint": "eslint",
-    "seed:pricing": "node seed-pricing-plans.js"
+    "seed:pricing": "node seed-pricing-plans.js",
+    "electron-dev": "next dev -p 3030 & wait-on http://localhost:3030 && electron .",
+    "electron-build": "next build && electron-builder --win -p always",
+    "electron-build-win": "next build && electron-builder --win",
+    "electron": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "check-deps": "node check-dependencies.js",
+    "postinstall": "node check-dependencies.js"
   },
   "dependencies": {
+    "@langchain/core": "^0.1.36",
     "@monaco-editor/react": "^4.7.0",
     "archiver": "^7.0.1",
     "axios": "^1.13.2",
@@ -19,12 +30,14 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
+    "electron-updater": "^6.1.0",
     "html2canvas": "^1.4.1",
     "ioredis": "^5.9.2",
     "jsdom": "^27.4.0",
     "jsonwebtoken": "^9.0.3",
     "jspdf": "^4.0.0",
     "jspdf-autotable": "^5.0.7",
+    "langchain": "^0.1.36",
     "lucide-react": "^0.563.0",
     "mongoose": "^9.1.5",
     "multer": "^1.4.5-lts.1",
@@ -58,6 +71,54 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "electron": "^28.0.0",
+    "electron-builder": "^24.0.0",
+    "wait-on": "^9.0.0"
+  },
+  "build": {
+    "appId": "com.trustinn.app",
+    "productName": "TrustInn",
+    "publish": {
+      "provider": "github",
+      "owner": "nitminer",
+      "repo": "trustinn-gui"
+    },
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist"
+    },
+    "files": [
+      "public/**/*",
+      ".next/**/*",
+      "node_modules/**/*",
+      "src/lib/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "certificateFile": null,
+      "certificatePassword": null,
+      "signingHashAlgorithms": ["sha256"],
+      "sign": null
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "TrustInn"
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}.${ext}"
+    }
   }
 }
