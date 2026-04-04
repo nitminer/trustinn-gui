@@ -3,8 +3,39 @@
  * Handles token extraction, validation, and session management for TrustInn
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7075';
+let API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  'https://trustinn.nitminer.com';
 const DEV_MODE = process.env.NEXT_PUBLIC_DEV_MODE === 'true';
+
+// Load API URL from Electron app config if available
+async function initializeAPIUrl() {
+  if (typeof window !== 'undefined' && (window as any).api && (window as any).api.invoke) {
+    try {
+      const config = await (window as any).api.invoke('get-app-config');
+      if (config?.apiUrl) {
+        API_BASE_URL = config.apiUrl;
+        console.log('[jwtAuth] API URL loaded from Electron config:', API_BASE_URL);
+      }
+    } catch (error) {
+      console.log('[jwtAuth] Electron config not available, using default API URL:', API_BASE_URL);
+    }
+  }
+}
+
+// Initialize on module load
+if (typeof window !== 'undefined') {
+  initializeAPIUrl();
+}
+
+// Export function to update API URL dynamically
+export function setAPIBaseUrl(url: string) {
+  API_BASE_URL = url;
+}
+
+export function getAPIBaseUrl() {
+  return API_BASE_URL;
+}
 
 // Log initialization status
 if (typeof window !== 'undefined') {
@@ -19,6 +50,8 @@ export interface NitMinerUser {
   id: string;
   mongoId?: string;
   name: string;
+  firstName?: string;
+  lastName?: string;
   email: string;
   role: string;
   isPremium: boolean;
@@ -344,7 +377,9 @@ export async function validateToken(token: string): Promise<{ isValid: boolean; 
           user: {
             id: payload.id || 'unknown',
             mongoId: payload.mongoId,
-            name: payload.name || 'Unknown User',
+            firstName: payload.firstName,
+            lastName: payload.lastName,
+            name: payload.name || `${payload.firstName || ''} ${payload.lastName || ''}`.trim() || 'Unknown User',
             email: payload.email || 'unknown@example.com',
             role: payload.role || 'user',
             isPremium: payload.isPremium || false,
@@ -380,6 +415,8 @@ export async function validateToken(token: string): Promise<{ isValid: boolean; 
           user: {
             id: 'dev-user-123',
             mongoId: 'dev_mongo_id',
+            firstName: 'Dev',
+            lastName: 'User',
             name: 'Dev User',
             email: 'dev@test.com',
             role: 'user',
@@ -405,10 +442,10 @@ export async function validateToken(token: string): Promise<{ isValid: boolean; 
       }
     }
 
-    const endpoint = `${API_BASE_URL}/api/auth/validate-nitminer-token`;
+    const endpoint = `/api/auth/validate-token`;
     console.log('[validateToken] Starting token validation...');
-    console.log('[validateToken] Endpoint:', endpoint);
-    console.log('[validateToken] API_BASE_URL:', API_BASE_URL);
+    console.log('[validateToken] Proxy endpoint:', endpoint);
+    console.log('[validateToken] Backend API_BASE_URL:', API_BASE_URL);
     
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
@@ -588,7 +625,10 @@ export async function checkSessionStatus(userId: string): Promise<SessionStatus>
  */
 export async function consumeTrial(userId: string): Promise<{ consumed: boolean; remainingTrials: number; error?: string }> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/auth/consume-trail`, {
+    console.log('[consumeTrial] Consuming trial for user:', userId);
+    
+    // Call LOCAL Next.js API endpoint, not external backend
+    const response = await fetch('/api/auth/consume-trail', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -597,9 +637,12 @@ export async function consumeTrial(userId: string): Promise<{ consumed: boolean;
       credentials: 'include'
     });
 
+    console.log('[consumeTrial] Response status:', response.status);
+
     const data = await response.json();
 
     if (!response.ok) {
+      console.error('[consumeTrial] Failed to consume trial:', data.message);
       return {
         consumed: false,
         remainingTrials: data.trialCount || 0,
@@ -607,13 +650,14 @@ export async function consumeTrial(userId: string): Promise<{ consumed: boolean;
       };
     }
 
+    console.log('[consumeTrial] Trial consumed successfully. New count:', data.trialCount);
     // Don't store user data locally - it will be fetched fresh from DB
     return {
       consumed: data.trialConsumed,
       remainingTrials: data.trialCount
     };
   } catch (error) {
-    console.error('Trial consumption error:', error);
+    console.error('[consumeTrial] Error:', error);
     return {
       consumed: false,
       remainingTrials: 0,
