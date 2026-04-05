@@ -54,3 +54,48 @@ jobs:
             trustinn-desktop/dist/*.dmg
             trustinn-desktop/dist/*.zip
           retention-days: 30
+
+  build-win:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies (trustinn-desktop)
+        working-directory: ./trustinn-desktop
+        run: npm install
+
+      - name: Build Windows installer
+        working-directory: ./trustinn-desktop
+        run: npm run build:win
+
+      - name: Upload Windows assets to Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            trustinn-desktop/dist/*.exe
+            trustinn-desktop/dist/*.blockmap
+            trustinn-desktop/dist/latest*.yml
+          draft: false
+          prerelease: false
+          fail_on_unmatched_files: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: |
+            trustinn-desktop/dist/*.exe
+            trustinn-desktop/dist/*.blockmap
+            trustinn-desktop/dist/latest*.yml
+          retention-days: 30
