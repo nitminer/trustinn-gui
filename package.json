@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "NEXT_DISABLE_TURBOPACK=1 next dev -p ${PORT:-3030}",
-    "build": "NEXT_DISABLE_TURBOPACK=1 next build",
+    "build": "NODE_OPTIONS='--max-old-space-size=4096' next build",
     "start": "next start -p ${PORT:-3030}",
     "lint": "eslint",
     "seed:pricing": "node seed-pricing-plans.js",
@@ -44,7 +44,7 @@
     "lucide-react": "^0.563.0",
     "mongoose": "^9.1.5",
     "multer": "^1.4.5-lts.1",
-    "next": "^14.2.0",
+    "next": "^14.2.15",
     "next-auth": "^4.24.13",
     "nodemailer": "^7.0.12",
     "pdfkit": "^0.17.2",
@@ -85,6 +85,7 @@
   "build": {
     "appId": "com.trustinn.app",
     "productName": "TrustInn",
+    "copyright": "Copyright (c) 2026 NIT Miner Technologies Pvt ltd",
     "publish": {
       "provider": "github",
       "owner": "nitminer",

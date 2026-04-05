@@ -64,18 +64,9 @@ function setupApplicationMenu() {
 }
 
 function resolvePreferredDownloadDir() {
-  const installDir = path.dirname(process.execPath);
-  const preferred = path.join(installDir, 'TrustInnDownloads');
-
-  try {
-    fs.mkdirSync(preferred, { recursive: true });
-    fs.accessSync(preferred, fs.constants.W_OK);
-    return preferred;
-  } catch (_) {
-    const fallback = path.join(app.getPath('downloads'), 'TrustInnDownloads');
-    fs.mkdirSync(fallback, { recursive: true });
-    return fallback;
-  }
+  const downloadDir = path.join(app.getPath('downloads'), 'TrustInnDownloads');
+  fs.mkdirSync(downloadDir, { recursive: true });
+  return downloadDir;
 }
 
 function createWindow() {
