@@ -1,4 +1,4 @@
-const { app, BrowserWindow, shell, session } = require('electron');
+const { app, BrowserWindow, shell, session, Menu } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { startLocalServer, stopLocalServer } = require('../local-server/server');
@@ -7,6 +7,62 @@ const TRUSTINN_REMOTE_URL = 'https://trustinn.nitminer.com';
 const LOCAL_API_PORT = 4310;
 
 let mainWindow = null;
+
+async function reloadLatest() {
+  if (!mainWindow || mainWindow.isDestroyed()) return;
+
+  try {
+    await session.defaultSession.clearCache();
+  } catch (_) {
+    // Ignore cache clear failures and still attempt a reload.
+  }
+
+  mainWindow.webContents.reloadIgnoringCache();
+}
+
+function restartDesktopApp() {
+  app.relaunch();
+  app.exit(0);
+}
+
+function setupApplicationMenu() {
+  const template = [
+    {
+      label: 'TrustInn Desktop',
+      submenu: [
+        {
+          label: 'Reload Latest',
+          accelerator: 'CmdOrCtrl+R',
+          click: () => {
+            reloadLatest();
+          }
+        },
+        {
+          label: 'Restart App',
+          accelerator: 'CmdOrCtrl+Shift+R',
+          click: () => {
+            restartDesktopApp();
+          }
+        },
+        { type: 'separator' },
+        {
+          label: 'Quit',
+          accelerator: 'CmdOrCtrl+Q',
+          click: () => app.quit()
+        }
+      ]
+    },
+    {
+      label: 'View',
+      submenu: [
+        { role: 'togglefullscreen' },
+        { role: 'toggleDevTools' }
+      ]
+    }
+  ];
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+}
 
 function resolvePreferredDownloadDir() {
   const installDir = path.dirname(process.execPath);
@@ -30,7 +86,7 @@ function createWindow() {
     minWidth: 1200,
     minHeight: 760,
     backgroundColor: '#0b1020',
-    autoHideMenuBar: true,
+    autoHideMenuBar: false,
     icon: path.join(__dirname, '../assets/icons/icon-256.png'),
     webPreferences: {
       contextIsolation: true,
@@ -67,6 +123,7 @@ async function bootstrap() {
     item.setSavePath(savePath);
   });
 
+  setupApplicationMenu();
   createWindow();
 
   app.on('activate', () => {
