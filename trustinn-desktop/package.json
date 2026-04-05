@@ -8,21 +8,25 @@
     "start": "electron .",
     "start:dev": "cross-env TRUSTINN_DESKTOP_DEV=1 electron .",
     "build:win": "electron-builder --win --x64",
-    "build:win:portable": "electron-builder --win portable --x64"
+    "build:win:portable": "electron-builder --win portable --x64",
+    "build:win:signed": "electron-builder --win --x64 --publish never"
   },
   "build": {
     "appId": "com.trustinn.desktop",
     "productName": "TrustInn Desktop",
     "asar": true,
+    "artifactName": "${productName} Setup ${version}.${ext}",
     "directories": {
       "output": "dist"
     },
     "files": [
       "electron/**/*",
       "local-server/**/*",
+      "assets/**/*",
       "package.json"
     ],
     "win": {
+      "icon": "assets/icons/icon.ico",
       "target": [
         {
           "target": "nsis",
@@ -36,7 +40,10 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
+      "createStartMenuShortcut": true,
+      "installerIcon": "assets/icons/icon.ico",
+      "uninstallerIcon": "assets/icons/icon.ico",
+      "installerHeaderIcon": "assets/icons/icon.ico"
     }
   },
   "dependencies": {
