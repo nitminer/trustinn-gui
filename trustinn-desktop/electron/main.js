@@ -55,8 +55,7 @@ function setupApplicationMenu() {
     {
       label: 'View',
       submenu: [
-        { role: 'togglefullscreen' },
-        { role: 'toggleDevTools' }
+        { role: 'togglefullscreen' }
       ]
     }
   ];
@@ -92,6 +91,7 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: true,
+      devTools: false,
       preload: path.join(__dirname, 'preload.js'),
       additionalArguments: [
         `--trustinn-local-api-port=${LOCAL_API_PORT}`,
