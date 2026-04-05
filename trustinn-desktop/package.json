@@ -3,13 +3,17 @@
   "version": "1.2.0",
   "private": true,
   "description": "TrustInn Desktop: same TrustInn UI with local tool execution",
+  "author": "TrustInn",
   "main": "electron/main.js",
   "scripts": {
     "start": "electron .",
     "start:dev": "cross-env TRUSTINN_DESKTOP_DEV=1 electron .",
     "build:win": "electron-builder --win --x64",
     "build:win:portable": "electron-builder --win portable --x64",
-    "build:win:signed": "electron-builder --win --x64 --publish never"
+    "build:win:signed": "electron-builder --win --x64 --publish never",
+    "build:mac": "electron-builder --mac --x64 --arm64",
+    "build:mac:dmg": "electron-builder --mac dmg --x64 --arm64",
+    "generate:icon": "node generate-icns.js"
   },
   "build": {
     "appId": "com.trustinn.desktop",
@@ -44,6 +48,46 @@
       "installerIcon": "assets/icons/icon.ico",
       "uninstallerIcon": "assets/icons/icon.ico",
       "installerHeaderIcon": "assets/icons/icon.ico"
+    },
+    "mac": {
+      "icon": "assets/icons/icon.icns",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "category": "public.app-category.productivity"
+    },
+    "dmg": {
+      "icon": "assets/icons/icon.icns",
+      "contents": [
+        {
+          "x": 130,
+          "y": 220,
+          "type": "file"
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "window": {
+        "width": 540,
+        "height": 380
+      }
     }
   },
   "dependencies": {
@@ -53,6 +97,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "dmg-license": "^1.0.11",
     "electron": "^31.7.7",
     "electron-builder": "^25.1.8"
   }
