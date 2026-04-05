@@ -70,6 +70,7 @@
       "category": "public.app-category.productivity"
     },
     "dmg": {
+      "artifactName": "${productName} Setup ${version}-${arch}.${ext}",
       "icon": "assets/icons/icon.icns",
       "contents": [
         {
