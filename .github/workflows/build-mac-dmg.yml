@@ -1,5 +1,8 @@
 name: Build macOS DMG
 
+permissions:
+  contents: write
+
 on:
   push:
     tags:
