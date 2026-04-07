@@ -10,7 +10,8 @@ const LOCAL_BASE = `http://127.0.0.1:${LOCAL_PORT}`;
 const LOCAL_TOOL_PATHS = new Set([
   '/api/tools/execute',
   '/api/tools/compile',
-  '/api/tools/compile-stream'
+  '/api/tools/compile-stream',
+  '/api/samples'  // Offline sample loading
 ]);
 
 function parseUrl(input) {

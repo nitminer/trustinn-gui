@@ -6,6 +6,7 @@ const fsp = require('fs/promises');
 const path = require('path');
 const os = require('os');
 const { spawn } = require('child_process');
+const SAMPLES = require('./samples');
 
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -199,6 +200,13 @@ function createApp(allowedOrigin) {
 
   app.get('/health', (req, res) => {
     res.json({ ok: true, mode: 'desktop-local-execution' });
+  });
+
+  // Serve sample code from local database (offline support)
+  app.get('/api/samples', (req, res) => {
+    const language = req.query.language || 'java';
+    const samples = SAMPLES[language.toLowerCase()] || [];
+    res.json({ ok: true, samples });
   });
 
   app.post('/api/tools/compile', async (req, res) => {
